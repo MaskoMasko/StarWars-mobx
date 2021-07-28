@@ -38,7 +38,12 @@ function App() {
           component={FavCharacterListScreen}
         />
         <Stack.Screen
-          options={{ title: "Character Detail Screen" }}
+          options={{
+            title: "Character Details",
+            headerStyle: { backgroundColor: "black", height: 120 },
+            headerTintColor: "#fff",
+            headerTitleStyle: { fontWeight: "bold" },
+          }}
           name="CharDetail"
           component={CharacterDetailScreen}
         />
