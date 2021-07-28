@@ -15,7 +15,15 @@ export function HomeScreen({ navigation }) {
   const [loginModal, setLoginModal] = React.useState(true);
 
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+    <View
+      style={{
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        paddingTop: 100,
+        backgroundColor: "rgb(46, 49, 49)",
+      }}
+    >
       <Modal visible={loginModal}>
         <View style={styles.nameModal}>
           <Image
@@ -43,15 +51,25 @@ export function HomeScreen({ navigation }) {
           </TouchableOpacity>
         </View>
       </Modal>
-      <Text>Hello {userName}!</Text>
-      <Button
-        title="Go To CharcterList Screen"
+      {/* MODAL CLOSED */}
+      <Text style={styles.greetingText}>Welcome, {userName}!</Text>
+      <Text style={[{ textAlign: "center" }, styles.greetingText]}>
+        Just an app with Star Wars characters...
+      </Text>
+      <TouchableOpacity
+        activeOpacity={0.5}
         onPress={() => navigation.navigate("CharList")}
-      ></Button>
-      <Button
-        title="Go To FavCharcterList Screen"
+        style={[styles.nameSubmitButton, { marginTop: 100 }]}
+      >
+        <Text style={styles.nameSubmitButtonText}>CHARACTER LIST</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        activeOpacity={0.5}
         onPress={() => navigation.navigate("FavList")}
-      ></Button>
+        style={styles.nameSubmitButton}
+      >
+        <Text style={styles.nameSubmitButtonText}>FAVORITE CHARACTER LIST</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -79,5 +97,11 @@ const styles = StyleSheet.create({
     color: "black",
     fontSize: 14,
     fontWeight: "bold",
+  },
+  greetingText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    margin: 10,
+    color: "white",
   },
 });
