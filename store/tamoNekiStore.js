@@ -10,7 +10,6 @@ const state = observable({
     gender: undefined,
     hair_color: undefined,
     height: undefined,
-    homeworld: undefined,
     mass: undefined,
     skin_color: undefined,
   },
@@ -36,7 +35,6 @@ const selectedChar = action(function selectedChar(
   mass,
   height,
   skin_color,
-  homeworld,
   gender
 ) {
   state.charDetails.name = name;
@@ -46,7 +44,6 @@ const selectedChar = action(function selectedChar(
   state.charDetails.mass = mass;
   state.charDetails.height = height;
   state.charDetails.skin_color = skin_color;
-  state.charDetails.homeworld = homeworld;
   state.charDetails.gender = gender;
 });
 
