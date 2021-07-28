@@ -15,6 +15,7 @@ const state = observable({
   },
   favCharList: [],
   movies: [],
+  charId: undefined,
 });
 
 //await razbije strict-mode pa stavljamo flow i yelid - uz generator func
@@ -22,6 +23,12 @@ const fetchingData = flow(function* fetchingData(url) {
   const res = yield fetch(url);
   const things = yield res.json();
   state.dataFetched = things.results;
+});
+
+const fetchingCharacterMovies = flow(function* fetchingCharacterMovies(id) {
+  for (let i = 0; i < state.dataFetched[id].films.length; i++) {
+    state.movies.push(state.dataFetched[id].films[i]);
+  }
 });
 
 const addChar = action(function addChar(name) {
@@ -55,4 +62,5 @@ export const store = {
   fetchingData,
   addChar,
   selectedChar,
+  fetchingCharacterMovies,
 };
