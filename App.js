@@ -1,10 +1,10 @@
-import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { HomeScreen } from './screens/HomeScreen';
-import { CharacterListScreen } from './screens/CharacterListScreen';
-import { FavCharacterListScreen } from './screens/FavCharacterListScreen';
-import { CharacterDetailScreen } from './screens/CharacterDetailScreen';
+import * as React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { HomeScreen } from "./screens/HomeScreen";
+import { CharacterListScreen } from "./screens/CharacterListScreen";
+import { FavCharacterListScreen } from "./screens/FavCharacterListScreen";
+import { CharacterDetailScreen } from "./screens/CharacterDetailScreen";
 
 const Stack = createStackNavigator();
 
@@ -12,10 +12,26 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen options={{title:"Welcome Screen"}} name="Home" component={HomeScreen} />
-        <Stack.Screen options={{title:"Character List Screen"}} name="CharList" component={CharacterListScreen} />
-        <Stack.Screen options={{title:"Favorite Char List Screen"}} name="FavList" component={FavCharacterListScreen} />
-        <Stack.Screen options={{title:"Character Detail Screen"}} name="CharDetail" component={CharacterDetailScreen} />
+        <Stack.Screen
+          options={{ title: "Welcome Screen" }}
+          name="Home"
+          component={HomeScreen}
+        />
+        <Stack.Screen
+          options={{ title: "Character List Screen" }}
+          name="CharList"
+          component={CharacterListScreen}
+        />
+        <Stack.Screen
+          options={{ title: "Favorite Char List Screen" }}
+          name="FavList"
+          component={FavCharacterListScreen}
+        />
+        <Stack.Screen
+          options={{ title: "Character Detail Screen" }}
+          name="CharDetail"
+          component={CharacterDetailScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -16,6 +16,10 @@ export const CharacterListScreen = observer(({ navigation }) => {
         const { name } = char;
         return (
           <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("CharDetail");
+              tamoNekiStore.selectedChar(name);
+            }}
             key={id}
             style={{ width: 200, height: 200, backgroundColor: "red" }}
           >
