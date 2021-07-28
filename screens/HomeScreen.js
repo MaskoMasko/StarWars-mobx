@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Image,
   StyleSheet,
+  Alert,
 } from "react-native";
 
 export function HomeScreen({ navigation }) {
