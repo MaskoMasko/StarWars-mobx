@@ -13,7 +13,12 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          options={{ title: "Welcome Screen" }}
+          options={{
+            title: "Star Wars Character Collection",
+            headerStyle: { backgroundColor: "black", height: 120 },
+            headerTintColor: "#fff",
+            headerTitleStyle: { fontWeight: "bold" },
+          }}
           name="Home"
           component={HomeScreen}
         />
