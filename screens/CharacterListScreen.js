@@ -1,6 +1,5 @@
 import { observer } from "mobx-react";
 import * as React from "react";
-import { unstable_renderSubtreeIntoContainer } from "react-dom";
 import {
   View,
   Text,
@@ -52,7 +51,6 @@ export const CharacterListScreen = observer(({ navigation }) => {
                   skin_color,
                   gender
                 );
-                store.state.charName = name;
               }}
               key={id}
               style={styles.charListItem}
