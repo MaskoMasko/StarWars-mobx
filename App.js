@@ -23,7 +23,12 @@ function App() {
           component={HomeScreen}
         />
         <Stack.Screen
-          options={{ title: "Character List Screen" }}
+          options={{
+            title: "Character List",
+            headerStyle: { backgroundColor: "black", height: 120 },
+            headerTintColor: "#fff",
+            headerTitleStyle: { fontWeight: "bold" },
+          }}
           name="CharList"
           component={CharacterListScreen}
         />
