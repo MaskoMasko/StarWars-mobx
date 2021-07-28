@@ -4,6 +4,10 @@ import { View, Text, Button } from "react-native";
 import { store } from "../store/tamoNekiStore";
 
 export const CharacterDetailScreen = observer(({ navigation }) => {
+  React.useEffect(() => {
+    store.fetchingCharacterMovies(store.state.charId);
+  }, []);
+
   const {
     name,
     birth_year,
@@ -13,7 +17,6 @@ export const CharacterDetailScreen = observer(({ navigation }) => {
     height,
     skin_color,
     gender,
-    films,
   } = store.state.charDetails;
   return (
     <View style={{ flex: 1 }}>
@@ -27,7 +30,11 @@ export const CharacterDetailScreen = observer(({ navigation }) => {
       <Text>Hair Color: {hair_color}</Text>
       <Text>Skin Color: {skin_color}</Text>
       <Text>Movies</Text>
-      <Text>{films}</Text>
+      <Text>
+        {store.state.movies.map((movie, id) => {
+          return <Text key={id}>{movie}</Text>;
+        })}
+      </Text>
       <Button
         title="add ot fav"
         onPress={() => {
