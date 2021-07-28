@@ -24,7 +24,7 @@ export function HomeScreen({ navigation }) {
         backgroundColor: "rgb(46, 49, 49)",
       }}
     >
-      <Modal visible={loginModal}>
+      <Modal visible={loginModal} animationType="slide">
         <View style={styles.nameModal}>
           <Image
             style={{ width: 300, marginBottom: 100, height: 200 }}
