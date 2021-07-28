@@ -13,7 +13,6 @@ const state = observable({
     mass: undefined,
     skin_color: undefined,
   },
-  charId: undefined,
   favCharList: [],
   movies: [],
 });
@@ -25,31 +24,11 @@ const fetchingData = flow(function* fetchingData(url) {
   state.dataFetched = things.results;
 });
 
-// const fetchingCharacterMovies = flow(function* fetchingCharacterMovies(id) {
-//   for (
-//     let i = 0;
-//     i < state.dataFetched[id].films.length;
-//     i++
-//   ) {
-//     var movie = yield fetch(
-//       `${state.dataFetched[id].films[i]}?format=json`
-//     );
-//     var movieToJson = yield movie.json();
-//     state.movies.push(movieToJson.title);
-//   }
-//   console.log(state.movies);
-// });
-
-const fetchingCharacterMovies = flow(function* fetchingCharacterMovies(id) {
-  console.log(state.dataFetched[id].films);
-});
-
 const addChar = action(function addChar(name) {
   state.favCharList.push(name);
 });
 
 const selectedChar = action(function selectedChar(
-  charId,
   name,
   birth_year,
   eye_color,
@@ -60,7 +39,6 @@ const selectedChar = action(function selectedChar(
   gender,
   films
 ) {
-  state.charDetails.charId = charId;
   state.charDetails.name = name;
   state.charDetails.birth_year = birth_year;
   state.charDetails.eye_color = eye_color;
@@ -77,5 +55,4 @@ export const store = {
   fetchingData,
   addChar,
   selectedChar,
-  fetchingCharacterMovies,
 };
