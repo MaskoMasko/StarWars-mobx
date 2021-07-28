@@ -12,20 +12,20 @@ export const CharacterDetailScreen = observer(({ navigation }) => {
     mass,
     height,
     skin_color,
-    homeworld,
     gender,
   } = store.state.charDetails;
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+    <View style={{ flex: 1 }}>
       <Text>{name}</Text>
-      <Text>{birth_year}</Text>
-      <Text>{eye_color}</Text>
-      <Text>{hair_color}</Text>
-      <Text>{mass}</Text>
-      <Text>{height}</Text>
-      <Text>{skin_color}</Text>
-      <Text>{homeworld}</Text>
-      <Text>{gender}</Text>
+      <Text>Personal</Text>
+      <Text>Gender: {gender}</Text>
+      <Text>Brith Year: {birth_year}</Text>
+      <Text>Height: {height} cm</Text>
+      <Text>Mass: {mass} kg</Text>
+      <Text>Eye Color: {eye_color}</Text>
+      <Text>Hair Color: {hair_color}</Text>
+      <Text>Skin Color: {skin_color}</Text>
+      <Text>Movies</Text>
       <Button
         title="add ot fav"
         onPress={() => {
