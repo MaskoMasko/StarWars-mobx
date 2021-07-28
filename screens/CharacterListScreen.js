@@ -35,7 +35,6 @@ export const CharacterListScreen = observer(({ navigation }) => {
             mass,
             height,
             skin_color,
-            homeworld,
             gender,
           } = char;
           return (
@@ -50,7 +49,6 @@ export const CharacterListScreen = observer(({ navigation }) => {
                   mass,
                   height,
                   skin_color,
-                  homeworld,
                   gender
                 );
               }}
