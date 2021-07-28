@@ -51,6 +51,7 @@ export const CharacterListScreen = observer(({ navigation }) => {
                   skin_color,
                   gender
                 );
+                store.state.charId = id;
               }}
               key={id}
               style={styles.charListItem}
