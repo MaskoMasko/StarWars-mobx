@@ -4,11 +4,6 @@ import { View, Text, Button } from "react-native";
 import { store } from "../store/tamoNekiStore";
 
 export const CharacterDetailScreen = observer(({ navigation }) => {
-  React.useEffect(() => {
-    console.log(store.state.charName);
-    store.fetchingCharacterMovies(store.state.charName);
-  }, []);
-
   const {
     name,
     birth_year,
