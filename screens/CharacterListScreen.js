@@ -25,43 +25,50 @@ export const CharacterListScreen = observer(({ navigation }) => {
         backgroundColor: "rgb(46, 49, 49)",
       }}
     >
-      <ScrollView style={styles.charItemContainer}>
-        {store.state.dataFetched.map((char, id) => {
-          const {
-            name,
-            birth_year,
-            eye_color,
-            hair_color,
-            mass,
-            height,
-            skin_color,
-            gender,
-          } = char;
-          return (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("CharDetail");
-                store.selectedChar(
-                  name,
-                  birth_year,
-                  eye_color,
-                  hair_color,
-                  mass,
-                  height,
-                  skin_color,
-                  gender
-                );
-                store.state.charId = id;
-              }}
-              key={id}
-              style={styles.charListItem}
-              activeOpacity={0.5}
-            >
-              <Text style={styles.charListItemText}>{name}</Text>
-            </TouchableOpacity>
-          );
-        })}
-      </ScrollView>
+      {store.state.isLoading ? (
+        <Text style={{ fontSize: 24, color: "white", fontWeight: "bold" }}>
+          Loading...
+        </Text>
+      ) : (
+        <ScrollView style={styles.charItemContainer}>
+          {store.state.dataFetched.map((char, id) => {
+            const {
+              name,
+              birth_year,
+              eye_color,
+              hair_color,
+              mass,
+              height,
+              skin_color,
+              gender,
+            } = char;
+            return (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("CharDetail");
+                  store.selectedChar(
+                    name,
+                    birth_year,
+                    eye_color,
+                    hair_color,
+                    mass,
+                    height,
+                    skin_color,
+                    gender
+                  );
+                  store.state.charId = id;
+                  store.state.movies = [];
+                }}
+                key={id}
+                style={styles.charListItem}
+                activeOpacity={0.5}
+              >
+                <Text style={styles.charListItemText}>{name}</Text>
+              </TouchableOpacity>
+            );
+          })}
+        </ScrollView>
+      )}
     </View>
   );
 });
