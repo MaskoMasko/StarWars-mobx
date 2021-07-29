@@ -47,7 +47,7 @@ export const CharacterListScreen = observer(({ navigation }) => {
               <TouchableOpacity
                 onPress={() => {
                   navigation.navigate("CharDetail");
-                  store.selectedChar(
+                  store.selectedChar({
                     name,
                     birth_year,
                     eye_color,
@@ -55,8 +55,8 @@ export const CharacterListScreen = observer(({ navigation }) => {
                     mass,
                     height,
                     skin_color,
-                    gender
-                  );
+                    gender,
+                  });
                   store.state.charId = id;
                   store.state.movies = [];
                 }}
