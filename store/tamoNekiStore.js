@@ -16,18 +16,25 @@ const state = observable({
   favCharList: [],
   movies: [],
   charId: undefined,
+  isLoading: false,
 });
 
 //await razbije strict-mode pa stavljamo flow i yelid - uz generator func
 const fetchingData = flow(function* fetchingData(url) {
+  state.isLoading = true;
   const res = yield fetch(url);
   const things = yield res.json();
+  state.isLoading = false;
   state.dataFetched = things.results;
 });
 
 const fetchingCharacterMovies = flow(function* fetchingCharacterMovies(id) {
   for (let i = 0; i < state.dataFetched[id].films.length; i++) {
-    state.movies.push(state.dataFetched[id].films[i]);
+    const filmici = yield fetch(
+      `${state.dataFetched[id].films[i]}?format=json`
+    );
+    const filmiciToJson = yield filmici.json();
+    state.movies.push(filmiciToJson.title);
   }
 });
 
