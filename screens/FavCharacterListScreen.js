@@ -15,6 +15,8 @@ import { store } from "../store/tamoNekiStore";
 export const FavCharacterListScreen = observer(({ navigation }) => {
   React.useEffect(() => {
     store.getValue();
+    // store.state.favCharList = [];
+    // store.saveValue();
   }, []);
 
   return (
