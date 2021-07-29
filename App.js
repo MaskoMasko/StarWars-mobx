@@ -33,7 +33,12 @@ function App() {
           component={CharacterListScreen}
         />
         <Stack.Screen
-          options={{ title: "Favorite Char List Screen" }}
+          options={{
+            title: "Favorite Characters",
+            headerStyle: { backgroundColor: "black", height: 120 },
+            headerTintColor: "#fff",
+            headerTitleStyle: { fontWeight: "bold" },
+          }}
           name="FavList"
           component={FavCharacterListScreen}
         />
