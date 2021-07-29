@@ -39,6 +39,9 @@ const fetchingCharacterMovies = flow(function* fetchingCharacterMovies(id) {
 });
 
 const addChar = action(function addChar(name) {
+  if (state.favCharList.includes(name)) {
+    return;
+  }
   state.favCharList.push(name);
 });
 
