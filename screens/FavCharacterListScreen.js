@@ -1,3 +1,4 @@
+import { disableExpoCliLogging } from "expo/build/logs/Logs";
 import { observer } from "mobx-react";
 import * as React from "react";
 import {
@@ -7,10 +8,15 @@ import {
   Button,
   StyleSheet,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { store } from "../store/tamoNekiStore";
 
 export const FavCharacterListScreen = observer(({ navigation }) => {
+  React.useEffect(() => {
+    store.getValue();
+  }, []);
+
   return (
     <View
       style={[
@@ -33,6 +39,7 @@ export const FavCharacterListScreen = observer(({ navigation }) => {
           })
         )}
       </ScrollView>
+      <Button title="Save List" onPress={() => store.saveValue()}></Button>
       <TouchableOpacity
         activeOpacity={0.5}
         onPress={() => navigation.popToTop()}
