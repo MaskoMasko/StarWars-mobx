@@ -1,3 +1,4 @@
+import { sortedIndex } from "lodash";
 import { observer } from "mobx-react";
 import * as React from "react";
 import {
@@ -63,7 +64,32 @@ export const CharacterListScreen = observer(({ navigation }) => {
                 style={styles.charListItem}
                 activeOpacity={0.5}
               >
-                <Text style={styles.charListItemText}>{name}</Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text style={styles.charListItemText}>{name}</Text>
+                  <TouchableOpacity
+                    activeOpacity={0.5}
+                    onPress={() => {
+                      store.addChar(name);
+                      navigation.navigate("FavList");
+                    }}
+                    style={{
+                      padding: 10,
+                      backgroundColor: "black",
+                      borderRadius: 5,
+                      margin: 5,
+                    }}
+                  >
+                    <Text style={{ color: "white", fontWeight: "bold" }}>
+                      FAVORITE
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </TouchableOpacity>
             );
           })}
