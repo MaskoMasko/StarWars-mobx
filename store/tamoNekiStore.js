@@ -109,6 +109,10 @@ const addChar = action(function addChar(name) {
   state.favoriteCharacterList.push(name);
 });
 
+const removeCharFromFav = action(function removeCharFromFav(id) {
+  state.favoriteCharacterList.splice(id, 1);
+});
+
 const selectedChar = action(function selectedChar({
   name,
   birth_year,
@@ -139,4 +143,5 @@ export const store = {
   fetchingCharacterMovies,
   saveValue,
   getValue,
+  removeCharFromFav,
 };

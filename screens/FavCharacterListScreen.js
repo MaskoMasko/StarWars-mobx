@@ -28,8 +28,35 @@ export const FavCharacterListScreen = observer(({ navigation }) => {
         ) : (
           store.state.favoriteCharacterList.map((char, id) => {
             return (
-              <View key={id} style={styles.charListItem}>
+              <View
+                key={id}
+                style={[
+                  styles.charListItem,
+                  {
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    width: "78%",
+                    alignItems: "center",
+                  },
+                ]}
+              >
                 <Text style={styles.charListItemText}>{char}</Text>
+                <TouchableOpacity
+                  activeOpacity={0.5}
+                  onPress={() => {
+                    store.removeCharFromFav(id);
+                  }}
+                  style={{
+                    padding: 10,
+                    backgroundColor: "black",
+                    borderRadius: 5,
+                    margin: 5,
+                  }}
+                >
+                  <Text style={{ color: "white", fontWeight: "bold" }}>
+                    REMOVE
+                  </Text>
+                </TouchableOpacity>
               </View>
             );
           })
