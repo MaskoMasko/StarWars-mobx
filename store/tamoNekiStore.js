@@ -1,4 +1,5 @@
 import { makeAutoObservable, observable, action, flow } from "mobx";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const state = observable({
   dataFetched: [],
@@ -14,10 +15,48 @@ const state = observable({
     skin_color: undefined,
   },
   favCharList: [],
+  favCharListClone: [],
+  jsonObject: undefined,
   movies: [],
   charId: undefined,
   isLoading: false,
 });
+
+const saveValue = action(function saveValue() {
+  AsyncStorage.setItem("neki_value", JSON.stringify(state.favCharList));
+  alert("saved");
+});
+
+const getValue = action(function getValue() {
+  AsyncStorage.getItem("neki_value").then((val) => {
+    state.jsonObject = JSON.parse(val);
+    for (let i = 0; i < state.jsonObject.length; i++) {
+      if (state.favCharListClone.includes(state.jsonObject[i])) {
+        return;
+      }
+      state.favCharListClone.push(state.jsonObject[i]);
+      state.favCharList = state.favCharListClone;
+    }
+  });
+});
+
+// const saveValue = flow(function* saveValue() {
+//   AsyncStorage.setItem("neki_value", JSON.stringify(state.favCharList));
+//   alert("saved");
+// });
+
+// const getValue = flow(function* getValue() {
+//   AsyncStorage.getItem("neki_value").then((val) => {
+//     state.jsonObject = JSON.parse(val);
+//     for (let i = 0; i < state.jsonObject.length; i++) {
+//       if (state.favCharListClone.includes(state.jsonObject[i])) {
+//         return;
+//       }
+//       state.favCharListClone.push(state.jsonObject[i]);
+//       state.favCharList = state.favCharListClone;
+//     }
+//   });
+// });
 
 //await razbije strict-mode pa stavljamo flow i yelid - uz generator func
 const fetchingData = flow(function* fetchingData(url) {
@@ -73,4 +112,6 @@ export const store = {
   addChar,
   selectedChar,
   fetchingCharacterMovies,
+  saveValue,
+  getValue,
 };
