@@ -46,16 +46,16 @@ export const CharacterDetailScreen = observer(({ navigation }) => {
       <Text style={styles.characterDrugo}>Hair Color: {hair_color}</Text>
       <Text style={styles.characterDrugo}>Skin Color: {skin_color}</Text>
       <Text style={styles.characterPodnaslovi}>Movies</Text>
-      <Text>
+      <View>
         {store.state.movies.map((movie, id) => {
           return (
             <View key={id}>
               {/* HOW TO AVOID PRETTIER? */}
-              <Text style={styles.characterDrugo}>{movie} </Text>
+              <Text style={styles.characterDrugo}>{movie}</Text>
             </View>
           );
         })}
-      </Text>
+      </View>
       <View style={{ flexDirection: "row" }}>
         <TouchableOpacity
           activeOpacity={0.5}
@@ -92,6 +92,7 @@ export const CharacterDetailScreen = observer(({ navigation }) => {
               styles.addToFavBtnText,
               {
                 color: "black",
+                fontWeight: "bold",
               },
             ]}
           >
