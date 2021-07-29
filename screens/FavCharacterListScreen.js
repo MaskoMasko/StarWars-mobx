@@ -13,12 +13,6 @@ import {
 import { store } from "../store/tamoNekiStore";
 
 export const FavCharacterListScreen = observer(({ navigation }) => {
-  React.useEffect(() => {
-    store.getValue();
-    // store.state.favCharList = [];
-    // store.saveValue();
-  }, []);
-
   return (
     <View
       style={[
@@ -27,12 +21,12 @@ export const FavCharacterListScreen = observer(({ navigation }) => {
       ]}
     >
       <ScrollView>
-        {store.state.favCharList.length == 0 ? (
+        {store.state.favoriteCharacterList.length == 0 ? (
           <Text style={styles.emptyListText}>
             You Haven't Added Any Character To The List...
           </Text>
         ) : (
-          store.state.favCharList.map((char, id) => {
+          store.state.favoriteCharacterList.map((char, id) => {
             return (
               <View key={id} style={styles.charListItem}>
                 <Text style={styles.charListItemText}>{char}</Text>
@@ -41,7 +35,7 @@ export const FavCharacterListScreen = observer(({ navigation }) => {
           })
         )}
       </ScrollView>
-      <Button title="Save List" onPress={() => store.saveValue()}></Button>
+      {/* <Button title="Save List" onPress={() => store.saveValue()}></Button> */}
       <TouchableOpacity
         activeOpacity={0.5}
         onPress={() => navigation.popToTop()}
