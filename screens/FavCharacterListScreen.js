@@ -35,7 +35,7 @@ export const FavCharacterListScreen = observer(({ navigation }) => {
                   {
                     flexDirection: "row",
                     justifyContent: "space-between",
-                    width: "78%",
+                    width: "81%",
                     alignItems: "center",
                   },
                 ]}
