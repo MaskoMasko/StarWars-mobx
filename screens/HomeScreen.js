@@ -2,7 +2,6 @@ import * as React from "react";
 import {
   View,
   Text,
-  Button,
   Modal,
   TextInput,
   TouchableOpacity,
@@ -30,7 +29,8 @@ export function HomeScreen({ navigation }) {
           <Image
             style={{ width: 300, marginBottom: 100, height: 200 }}
             source={{
-              uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Star_Wars_Logo.svg/640px-Star_Wars_Logo.svg.png",
+              uri:
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Star_Wars_Logo.svg/640px-Star_Wars_Logo.svg.png",
             }}
           ></Image>
           <TextInput
