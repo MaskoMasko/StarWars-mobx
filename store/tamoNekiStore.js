@@ -2,39 +2,44 @@
 import { types, flow } from "mobx-state-tree";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-let characterDetails = types.model({
+const CharacterModel = types.model("Character", {
+  url: types.identifier,
   name: types.optional(types.string, ""),
 });
 const Store = types
-  .model({
-    dataFetched: types.array(characterDetails),
+  .model("Store", {
+    selectedCharacter: types.safeReference(CharacterModel),
+    //safe refrence tornima charmodel koji ima taj identifier
+    characterList: types.array(CharacterModel),
   })
   .actions((self) => {
-    const fetchData = flow(function* (url) {
-      const result = yield fetch(url);
-      const things = yield result.json();
-      for (let i = 0; i < things.results.length; i++) {
-        self.dataFetched.push({
-          name: things.results[i].name,
-        });
-      }
-    });
-    return { fetchData };
-  })
-  .actions((self) => {
-    const selectedChar = function selectedChar({ name }) {
-      for (let i = 0; i < self.dataFetched.length; i++) {
-        if (self.dataFetched[i].name == name) {
-          characterDetails.name = self.dataFetched[i].name;
-          console.log(characterDetails.name);
+    return {
+      fetchData: flow(function* fetchData(url) {
+        const result = yield fetch(url);
+        const characterListData = yield result.json();
+        for (let i = 0; i < characterListData.results.length; i++) {
+          const character = characterListData.results[i];
+          self.characterList.push({
+            url: character.url,
+            name: character.name,
+          });
         }
-      }
+      }),
     };
-    return { selectedChar };
+  })
+  .actions((self) => {
+    return {
+      setSelecterCharacter(characterId) {
+        // console.log(characterId);
+        //char id je link i po njemu dobijes objekt
+        //ki ima taj id dobije taj objekt
+        self.selectedCharacter = characterId;
+      },
+    };
   });
 
 export const characterStore = Store.create({
-  dataFetched: [],
+  characterList: [],
 });
 
 // const state = observable({
