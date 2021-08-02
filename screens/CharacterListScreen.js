@@ -152,10 +152,13 @@ export const CharacterListScreen = observer(({ navigation }) => {
               <Text style={styles.charListItemText}>{name}</Text>
               <TouchableOpacity
                 activeOpacity={0.5}
-                onPress={() => {
+                onPress={
                   // store.addChar(name);
-                  navigation.navigate("FavList");
-                }}
+                  () => {
+                    navigation.navigate("FavList");
+                    characterStore.addSelectedCharacterToFavorites(url);
+                  }
+                }
                 style={{
                   padding: 10,
                   backgroundColor: "black",
