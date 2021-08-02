@@ -115,6 +115,35 @@ export const CharacterDetailScreen = observer(({ navigation }) => {
       <Text style={styles.characterName}>
         {characterStore.selectedCharacter.name}
       </Text>
+      <TouchableOpacity
+        activeOpacity={0.5}
+        onPress={() => {
+          navigation.navigate("FavList");
+          characterStore.addSelectedCharacterToFavorites(
+            characterStore.selectedCharacter.url
+          );
+        }}
+        style={[
+          styles.addToFavBtn,
+          {
+            backgroundColor: "yellow",
+            marginHorizontal: 10,
+            marginVertical: 20,
+          },
+        ]}
+      >
+        <Text
+          style={[
+            styles.addToFavBtnText,
+            {
+              color: "black",
+              fontWeight: "bold",
+            },
+          ]}
+        >
+          ADD TO FAVORITES
+        </Text>
+      </TouchableOpacity>
       {/* <Text style={styles.characterPodnaslovi}>Personal</Text>
       <Text style={styles.characterDrugo}>Gender: {gender}</Text>
       <Text style={styles.characterDrugo}>Brith Year: {birth_year}</Text>
