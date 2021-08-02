@@ -41,25 +41,25 @@ const Store = types
   .actions((self) => {
     return {
       fetchData: flow(function* fetchData(url) {
-        self.characterList.splice(0, 10);
-        const result = yield fetch(url);
-        const characterListData = yield result.json();
-        for (let i = 0; i < characterListData.results.length; i++) {
-          const character = characterListData.results[i];
-          self.characterList.push({
-            id: i,
-            url: character.url,
-            name: character.name,
-            birth_year: character.birth_year,
-            eye_color: character.eye_color,
-            skin_color: character.skin_color,
-            gender: character.gender,
-            hair_color: character.hair_color,
-            mass: character.mass,
-            height: character.height,
-          });
+        while (self.characterList.length < 10) {
+          const result = yield fetch(url);
+          const characterListData = yield result.json();
+          for (let i = 0; i < characterListData.results.length; i++) {
+            const character = characterListData.results[i];
+            self.characterList.push({
+              id: i,
+              url: character.url,
+              name: character.name,
+              birth_year: character.birth_year,
+              eye_color: character.eye_color,
+              skin_color: character.skin_color,
+              gender: character.gender,
+              hair_color: character.hair_color,
+              mass: character.mass,
+              height: character.height,
+            });
+          }
         }
-        // self.characterList.clear();
       }),
     };
     // A FKING HELLLLL NE DELA POLA
@@ -89,7 +89,7 @@ const Store = types
     };
   })
   .actions((self) => {
-    const getData = flow(function* () {
+    const getData = flow(function*() {
       try {
         const jsonValue = yield AsyncStorage.getItem("favorite character list");
         return jsonValue != null ? JSON.parse(jsonValue) : null;
@@ -102,7 +102,7 @@ const Store = types
   })
   .actions((self) => {
     return {
-      onAppStart: flow(function* () {
+      onAppStart: flow(function*() {
         // 1. Dohvati iz AsyncStorea podatke, i "applySnaphot" na model
         try {
           const rez = yield self.getData();
@@ -111,18 +111,18 @@ const Store = types
           console.log("Error While Reading Data...");
           AsyncStorage.clear();
         }
-        autorun(function persistFavoriteCharacterList() {
-          // self.storeData();
-          AsyncStorage.setItem(
-            "favorite character list",
-            JSON.stringify(getSnapshot(self))
-          );
-        });
+        // autorun(function persistFavoriteCharacterList() {
+        //   // self.storeData();
+        //   AsyncStorage.setItem(
+        //     "favorite character list",
+        //     JSON.stringify(getSnapshot(self))
+        //   );
+        // });
 
         //TAKO ILI OVAKO
-        // onSnapshot(self, () => {
-        //   AsyncStorage.setItem("favorite character list", JSON.stringify(self));
-        // });
+        onSnapshot(self, () => {
+          AsyncStorage.setItem("favorite character list", JSON.stringify(self));
+        });
       }),
     };
   });
