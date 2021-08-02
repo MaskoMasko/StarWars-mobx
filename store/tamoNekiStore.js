@@ -1,16 +1,32 @@
 // import { makeAutoObservable, observable, action, flow, autorun } from "mobx";
-import { types, flow } from "mobx-state-tree";
+import {
+  types,
+  flow,
+  getSnapshot,
+  onSnapshot,
+  applySnapshot,
+} from "mobx-state-tree";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const CharacterModel = types.model("Character", {
   url: types.identifier,
   name: types.optional(types.string, ""),
 });
+
+// const store = { characterList: [{url: "1", name: "Leia Morgana"}, ...], selectedCharacter: "1" }
+
 const Store = types
   .model("Store", {
-    selectedCharacter: types.safeReference(CharacterModel),
-    //safe refrence tornima charmodel koji ima taj identifier
     characterList: types.array(CharacterModel),
+
+    // Referenca na Charactera koji je selectan, tj. prikazan na CharacterDetailScreen-u
+    selectedCharacter: types.safeReference(CharacterModel),
+
+    //CRUD
+    //safe refrence tornima charmodel koji ima taj identifier
+
+    // Lista referenci na charactere koji su oznaceni kao "favorite"
+    favoriteCharacterList: types.array(types.safeReference(CharacterModel)),
   })
   .actions((self) => {
     return {
@@ -36,11 +52,38 @@ const Store = types
         self.selectedCharacter = characterId;
       },
     };
-  });
+  })
+  .actions((self) => {
+    return {
+      addSelectedCharacterToFavorites(characterId) {
+        self.favoriteCharacterList.push(characterId);
+      },
+    };
+  })
 
+  .actions((self) => {
+    return {
+      onAppStart() {
+        // 1. Dohvati iz AsyncStorea podatke, i "applySnaphot" na model
+        applySnapshot(self, (snapshot) => console.log(snapshot));
+
+        autorun(function persistFavoriteCharacterList() {
+          AsyncStorage.setItem(
+            "favorite character list",
+            JSON.stringify(self.favoriteCharacterList)
+          );
+        });
+      },
+    };
+  });
 export const characterStore = Store.create({
   characterList: [],
+  favoriteCharacterList: [],
 });
+
+// onSnapshot(characterStore, (snapshot) => {
+//   console.log("Snapshot:", snapshot);
+// });
 
 // const state = observable({
 // dataFetched: [],
