@@ -105,6 +105,7 @@ export const CharacterDetailScreen = observer(({ navigation }) => {
   // });
 
   const {
+    id,
     name,
     birth_year,
     eye_color,
@@ -152,7 +153,7 @@ export const CharacterDetailScreen = observer(({ navigation }) => {
           onPress={() => {
             navigation.navigate("FavList");
             characterStore.addSelectedCharacterToFavorites(
-              characterStore.selectedCharacter.url
+              characterStore.selectedCharacter.id
             );
           }}
           style={[
