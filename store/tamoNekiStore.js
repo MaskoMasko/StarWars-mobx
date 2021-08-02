@@ -13,6 +13,13 @@ import { func } from "prop-types";
 const CharacterModel = types.model("Character", {
   url: types.identifier,
   name: types.optional(types.string, ""),
+  birth_year: types.string,
+  eye_color: types.string,
+  hair_color: types.string,
+  skin_color: types.string,
+  mass: types.string,
+  height: types.string,
+  gender: types.string,
 });
 
 // const store = { characterList: [{url: "1", name: "Leia Morgana"}, ...], selectedCharacter: "1" }
@@ -40,8 +47,16 @@ const Store = types
           self.characterList.push({
             url: character.url,
             name: character.name,
+            birth_year: character.birth_year,
+            eye_color: character.eye_color,
+            skin_color: character.skin_color,
+            gender: character.gender,
+            hair_color: character.hair_color,
+            mass: character.mass,
+            height: character.height,
           });
         }
+        // self.characterList.clear();
       }),
     };
   })
@@ -63,16 +78,11 @@ const Store = types
     };
   })
   .actions((self) => {
-    const storeData = async () => {
-      try {
-        const jsonValue = JSON.stringify(self.favoriteCharacterList);
-        await AsyncStorage.setItem("@storage_Key", jsonValue);
-        console.log(jsonValue);
-      } catch (e) {
-        console.log("Error: ", e);
-      }
+    return {
+      removeCharacterFromList(id) {
+        self.favoriteCharacterList.splice(id, 1);
+      },
     };
-    return { storeData };
   })
   .actions((self) => {
     const getData = flow(function* () {
@@ -90,9 +100,6 @@ const Store = types
     return {
       onAppStart: flow(function* () {
         // 1. Dohvati iz AsyncStorea podatke, i "applySnaphot" na model
-        // applySnapshot(self, (snapshot) =>
-        //   console.log(snapshot.favoriteCharacterList)
-        // );
         try {
           const rez = yield self.getData();
           applySnapshot(self, rez);
@@ -100,18 +107,18 @@ const Store = types
           console.log("Error While Reading Data...");
           AsyncStorage.clear();
         }
-        // autorun(function persistFavoriteCharacterList() {
-        //   // self.storeData();
-        //   AsyncStorage.setItem(
-        //     "favorite character list",
-        //     JSON.stringify(getSnapshot(self))
-        //   );
-        // });
+        autorun(function persistFavoriteCharacterList() {
+          // self.storeData();
+          AsyncStorage.setItem(
+            "favorite character list",
+            JSON.stringify(getSnapshot(self))
+          );
+        });
 
         //TAKO ILI OVAKO
-        onSnapshot(self, () => {
-          AsyncStorage.setItem("favorite character list", JSON.stringify(self));
-        });
+        // onSnapshot(self, () => {
+        //   AsyncStorage.setItem("favorite character list", JSON.stringify(self));
+        // });
       }),
     };
   });
