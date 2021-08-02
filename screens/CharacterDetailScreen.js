@@ -113,7 +113,7 @@ export const CharacterDetailScreen = observer(({ navigation }) => {
       }}
     >
       <Text style={styles.characterName}>
-        {characterStore.characterDetails.name}
+        {characterStore.selectedCharacter.name}
       </Text>
       {/* <Text style={styles.characterPodnaslovi}>Personal</Text>
       <Text style={styles.characterDrugo}>Gender: {gender}</Text>
