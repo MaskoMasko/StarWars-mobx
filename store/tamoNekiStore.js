@@ -103,22 +103,23 @@ const Store = types
         try {
           const rez = yield self.getData();
           applySnapshot(self, rez);
+          console.log({ ...self, characterList });
         } catch (e) {
           console.log("Error While Reading Data...");
           AsyncStorage.clear();
         }
-        autorun(function persistFavoriteCharacterList() {
-          // self.storeData();
-          AsyncStorage.setItem(
-            "favorite character list",
-            JSON.stringify(getSnapshot(self))
-          );
-        });
+        // autorun(function persistFavoriteCharacterList() {
+        //   // self.storeData();
+        //   AsyncStorage.setItem(
+        //     "favorite character list",
+        //     JSON.stringify(getSnapshot(self))
+        //   );
+        // });
 
         //TAKO ILI OVAKO
-        // onSnapshot(self, () => {
-        //   AsyncStorage.setItem("favorite character list", JSON.stringify(self));
-        // });
+        onSnapshot(self, () => {
+          AsyncStorage.setItem("favorite character list", JSON.stringify(self));
+        });
       }),
     };
   });
