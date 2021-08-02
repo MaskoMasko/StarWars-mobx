@@ -8,6 +8,7 @@ import {
   applySnapshot,
 } from "mobx-state-tree";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { func } from "prop-types";
 
 const CharacterModel = types.model("Character", {
   url: types.identifier,
@@ -61,23 +62,60 @@ const Store = types
       },
     };
   })
-
+  .actions((self) => {
+    const storeData = async () => {
+      try {
+        const jsonValue = JSON.stringify(self.favoriteCharacterList);
+        await AsyncStorage.setItem("@storage_Key", jsonValue);
+        console.log(jsonValue);
+      } catch (e) {
+        console.log("Error: ", e);
+      }
+    };
+    return { storeData };
+  })
+  .actions((self) => {
+    const getData = flow(function* () {
+      try {
+        const jsonValue = yield AsyncStorage.getItem("favorite character list");
+        return jsonValue != null ? JSON.parse(jsonValue) : null;
+      } catch (e) {
+        // error reading value
+        console.log("Error: ", e);
+      }
+    });
+    return { getData };
+  })
   .actions((self) => {
     return {
-      onAppStart() {
+      onAppStart: flow(function* () {
         // 1. Dohvati iz AsyncStorea podatke, i "applySnaphot" na model
-        applySnapshot(self, (snapshot) =>
-          console.log(snapshot.favoriteCharacterList)
-        );
-        autorun(function persistFavoriteCharacterList() {
-          AsyncStorage.setItem(
-            "favorite character list",
-            JSON.stringify(self.favoriteCharacterList)
-          );
+        // applySnapshot(self, (snapshot) =>
+        //   console.log(snapshot.favoriteCharacterList)
+        // );
+        try {
+          const rez = yield self.getData();
+          applySnapshot(self, rez);
+        } catch (e) {
+          console.log("Error While Reading Data...");
+          AsyncStorage.clear();
+        }
+        // autorun(function persistFavoriteCharacterList() {
+        //   // self.storeData();
+        //   AsyncStorage.setItem(
+        //     "favorite character list",
+        //     JSON.stringify(getSnapshot(self))
+        //   );
+        // });
+
+        //TAKO ILI OVAKO
+        onSnapshot(self, () => {
+          AsyncStorage.setItem("favorite character list", JSON.stringify(self));
         });
-      },
+      }),
     };
   });
+
 export const characterStore = Store.create({
   characterList: [],
   favoriteCharacterList: [],
@@ -85,26 +123,26 @@ export const characterStore = Store.create({
 
 characterStore.onAppStart();
 
-const getValue = flow(function* getValue() {
-  const rawFavoriteCharacterList = yield AsyncStorage.getItem(
-    "favorite character list"
-  );
-  try {
-    const favoriteCharacterList = JSON.parse(rawFavoriteCharacterList);
+// const getValue = flow(function* getValue() {
+//   const rawFavoriteCharacterList = yield AsyncStorage.getItem(
+//     "favorite character list"
+//   );
+//   try {
+//     const favoriteCharacterList = JSON.parse(rawFavoriteCharacterList);
 
-    // Keep only unique character names
-    const uniqueCharacters = Array.from(
-      new Set([...state.favoriteCharacterList, ...favoriteCharacterList])
-    );
-    state.favoriteCharacterList = uniqueCharacters;
-  } catch (error) {
-    console.log(
-      "Error while parsing character list from async storage:",
-      error.message
-    );
-    yield AsyncStorage.removeItem("favorite character list");
-  }
-});
+//     // Keep only unique character names
+//     const uniqueCharacters = Array.from(
+//       new Set([...state.favoriteCharacterList, ...favoriteCharacterList])
+//     );
+//     state.favoriteCharacterList = uniqueCharacters;
+//   } catch (error) {
+//     console.log(
+//       "Error while parsing character list from async storage:",
+//       error.message
+//     );
+//     yield AsyncStorage.removeItem("favorite character list");
+//   }
+// });
 
 // onSnapshot(characterStore, (snapshot) => {
 //   console.log("Snapshot:", snapshot);
@@ -130,54 +168,54 @@ const getValue = flow(function* getValue() {
 //   isLoading: false,
 // });
 
-//get value od fećanja
-const getValue = flow(function* getValue() {
-  //yes u get characters (unique)
-  const rawFavoriteCharacterList = yield AsyncStorage.getItem(
-    "favorite character list"
-  );
-  //try catch error ahhhhhhhhhhhhhhhhhhhhh
-  try {
-    const favoriteCharacterList = JSON.parse(rawFavoriteCharacterList);
+// //get value od fećanja
+// const getValue = flow(function* getValue() {
+//   //yes u get characters (unique)
+//   const rawFavoriteCharacterList = yield AsyncStorage.getItem(
+//     "favorite character list"
+//   );
+//   //try catch error ahhhhhhhhhhhhhhhhhhhhh
+//   try {
+//     const favoriteCharacterList = JSON.parse(rawFavoriteCharacterList);
 
-    // Keep only unique character names
-    const uniqueCharacters = Array.from(
-      new Set([...state.favoriteCharacterList, ...favoriteCharacterList])
-    );
-    state.favoriteCharacterList = uniqueCharacters;
-  } catch (error) {
-    console.log(
-      "Error while parsing character list from async storage:",
-      error.message
-    );
-    //ako je error remove kitem from list
-    yield AsyncStorage.removeItem("favorite character list");
-  }
-});
+//     // Keep only unique character names
+//     const uniqueCharacters = Array.from(
+//       new Set([...state.favoriteCharacterList, ...favoriteCharacterList])
+//     );
+//     state.favoriteCharacterList = uniqueCharacters;
+//   } catch (error) {
+//     console.log(
+//       "Error while parsing character list from async storage:",
+//       error.message
+//     );
+//     //ako je error remove kitem from list
+//     yield AsyncStorage.removeItem("favorite character list");
+//   }
+// });
 
-//automatksi runa
-onAppStart();
+// //automatksi runa
+// onAppStart();
 
-async function onAppStart() {
-  //awaita value
-  await getValue();
+// async function onAppStart() {
+//   //awaita value
+//   await getValue();
 
-  //autorun dela doslovno ca i govori i seta iteme u json stringify :///
-  autorun(function persistFavoriteCharacterList() {
-    AsyncStorage.setItem(
-      "favorite character list",
-      JSON.stringify(state.favoriteCharacterList)
-    );
-  });
-}
+//   //autorun dela doslovno ca i govori i seta iteme u json stringify :///
+//   autorun(function persistFavoriteCharacterList() {
+//     AsyncStorage.setItem(
+//       "favorite character list",
+//       JSON.stringify(state.favoriteCharacterList)
+//     );
+//   });
+// }
 
-const saveValue = action(function saveValue() {
-  AsyncStorage.setItem(
-    "favorite character list",
-    JSON.stringify(state.favoriteCharacterList)
-  );
-  alert("saved");
-});
+// const saveValue = action(function saveValue() {
+//   AsyncStorage.setItem(
+//     "favorite character list",
+//     JSON.stringify(state.favoriteCharacterList)
+//   );
+//   alert("saved");
+// });
 
 // promise (bilo sta sta ima .then) mores awaitat / yield-at
 
