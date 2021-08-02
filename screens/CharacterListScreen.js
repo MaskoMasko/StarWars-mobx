@@ -130,12 +130,12 @@ export const CharacterListScreen = observer(({ navigation }) => {
 
   return (
     <ScrollView style={styles.charItemContainer}>
-      {characterStore.characterList.map((char, id) => {
-        const { name, url } = char;
+      {characterStore.characterList.map((char, idx) => {
+        const { name, url, id } = char;
         return (
           <TouchableOpacity
             onPress={() => {
-              characterStore.setSelecterCharacter(url);
+              characterStore.setSelecterCharacter(id);
               navigation.navigate("CharDetail");
             }}
             key={id}
@@ -156,7 +156,7 @@ export const CharacterListScreen = observer(({ navigation }) => {
                   // store.addChar(name);
                   () => {
                     navigation.navigate("FavList");
-                    characterStore.addSelectedCharacterToFavorites(url);
+                    characterStore.addSelectedCharacterToFavorites(id);
                   }
                 }
                 style={{
