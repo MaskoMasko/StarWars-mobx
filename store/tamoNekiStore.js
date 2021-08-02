@@ -11,7 +11,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { func } from "prop-types";
 
 const CharacterModel = types.model("Character", {
-  url: types.identifier,
+  id: types.identifierNumber,
+  url: types.string,
   name: types.optional(types.string, ""),
   birth_year: types.string,
   eye_color: types.string,
@@ -40,11 +41,13 @@ const Store = types
   .actions((self) => {
     return {
       fetchData: flow(function* fetchData(url) {
+        self.characterList.splice(0, 10);
         const result = yield fetch(url);
         const characterListData = yield result.json();
         for (let i = 0; i < characterListData.results.length; i++) {
           const character = characterListData.results[i];
           self.characterList.push({
+            id: i,
             url: character.url,
             name: character.name,
             birth_year: character.birth_year,
@@ -59,6 +62,7 @@ const Store = types
         // self.characterList.clear();
       }),
     };
+    // A FKING HELLLLL NE DELA POLA
   })
   .actions((self) => {
     return {
@@ -103,23 +107,22 @@ const Store = types
         try {
           const rez = yield self.getData();
           applySnapshot(self, rez);
-          console.log({ ...self, characterList });
         } catch (e) {
           console.log("Error While Reading Data...");
           AsyncStorage.clear();
         }
-        // autorun(function persistFavoriteCharacterList() {
-        //   // self.storeData();
-        //   AsyncStorage.setItem(
-        //     "favorite character list",
-        //     JSON.stringify(getSnapshot(self))
-        //   );
-        // });
+        autorun(function persistFavoriteCharacterList() {
+          // self.storeData();
+          AsyncStorage.setItem(
+            "favorite character list",
+            JSON.stringify(getSnapshot(self))
+          );
+        });
 
         //TAKO ILI OVAKO
-        onSnapshot(self, () => {
-          AsyncStorage.setItem("favorite character list", JSON.stringify(self));
-        });
+        // onSnapshot(self, () => {
+        //   AsyncStorage.setItem("favorite character list", JSON.stringify(self));
+        // });
       }),
     };
   });
