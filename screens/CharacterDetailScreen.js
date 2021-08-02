@@ -9,25 +9,101 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import { store } from "../store/tamoNekiStore";
+import { characterStore, store } from "../store/tamoNekiStore";
 
 export const CharacterDetailScreen = observer(({ navigation }) => {
-  const route = useRoute();
+  //   const route = useRoute();
 
-  React.useEffect(() => {
-    store.fetchingCharacterMovies(store.state.charId);
-  }, []);
+  //   React.useEffect(() => {
+  //     store.fetchingCharacterMovies(store.state.charId);
+  //   }, []);
 
-  const {
-    name,
-    birth_year,
-    eye_color,
-    hair_color,
-    mass,
-    height,
-    skin_color,
-    gender,
-  } = store.state.charDetails;
+  //   const {
+  //     name,
+  //     birth_year,
+  //     eye_color,
+  //     hair_color,
+  //     mass,
+  //     height,
+  //     skin_color,
+  //     gender,
+  //   } = store.state.charDetails;
+  //   return (
+  //     <ScrollView
+  //       style={{
+  //         flex: 1,
+  //         paddingLeft: 10,
+  //         backgroundColor: "rgb(46, 49, 49)",
+  //       }}
+  //     >
+  //       <Text style={styles.characterName}>{name}</Text>
+  //       <Text style={styles.characterPodnaslovi}>Personal</Text>
+  //       <Text style={styles.characterDrugo}>Gender: {gender}</Text>
+  //       <Text style={styles.characterDrugo}>Brith Year: {birth_year}</Text>
+  //       <Text style={styles.characterDrugo}>Height: {height} cm</Text>
+  //       <Text style={styles.characterDrugo}>Mass: {mass} kg</Text>
+  //       <Text style={styles.characterDrugo}>Eye Color: {eye_color}</Text>
+  //       <Text style={styles.characterDrugo}>Hair Color: {hair_color}</Text>
+  //       <Text style={styles.characterDrugo}>Skin Color: {skin_color}</Text>
+  //       <Text style={styles.characterPodnaslovi}>Movies</Text>
+  //       <View>
+  //         {store.state.movies.map((movie, id) => {
+  //           return (
+  //             <View key={id}>
+  //               {/* HOW TO AVOID PRETTIER? */}
+  //               <Text style={styles.characterDrugo}>{movie}</Text>
+  //             </View>
+  //           );
+  //         })}
+  //       </View>
+  //       <View style={{ flexDirection: "row" }}>
+  //         <TouchableOpacity
+  //           activeOpacity={0.5}
+  //           onPress={() => {
+  //             navigation.navigate("CharList");
+  //           }}
+  //           style={[
+  //             styles.addToFavBtn,
+  //             {
+  //               marginHorizontal: 10,
+  //               marginVertical: 20,
+  //             },
+  //           ]}
+  //         >
+  //           <Text style={styles.addToFavBtnText}>GO BACK</Text>
+  //         </TouchableOpacity>
+  //         <TouchableOpacity
+  //           activeOpacity={0.5}
+  //           onPress={() => {
+  //             navigation.navigate("FavList");
+  //             store.addChar(name);
+  //           }}
+  //           style={[
+  //             styles.addToFavBtn,
+  //             {
+  //               backgroundColor: "yellow",
+  //               marginHorizontal: 10,
+  //               marginVertical: 20,
+  //             },
+  //           ]}
+  //         >
+  //           <Text
+  //             style={[
+  //               styles.addToFavBtnText,
+  //               {
+  //                 color: "black",
+  //                 fontWeight: "bold",
+  //               },
+  //             ]}
+  //           >
+  //             ADD TO FAVORITES
+  //           </Text>
+  //         </TouchableOpacity>
+  //       </View>
+  //     </ScrollView>
+  //   );
+  // });
+
   return (
     <ScrollView
       style={{
@@ -36,8 +112,10 @@ export const CharacterDetailScreen = observer(({ navigation }) => {
         backgroundColor: "rgb(46, 49, 49)",
       }}
     >
-      <Text style={styles.characterName}>{name}</Text>
-      <Text style={styles.characterPodnaslovi}>Personal</Text>
+      <Text style={styles.characterName}>
+        {characterStore.characterDetails.name}
+      </Text>
+      {/* <Text style={styles.characterPodnaslovi}>Personal</Text>
       <Text style={styles.characterDrugo}>Gender: {gender}</Text>
       <Text style={styles.characterDrugo}>Brith Year: {birth_year}</Text>
       <Text style={styles.characterDrugo}>Height: {height} cm</Text>
@@ -45,18 +123,17 @@ export const CharacterDetailScreen = observer(({ navigation }) => {
       <Text style={styles.characterDrugo}>Eye Color: {eye_color}</Text>
       <Text style={styles.characterDrugo}>Hair Color: {hair_color}</Text>
       <Text style={styles.characterDrugo}>Skin Color: {skin_color}</Text>
-      <Text style={styles.characterPodnaslovi}>Movies</Text>
-      <View>
+      <Text style={styles.characterPodnaslovi}>Movies</Text> */}
+      {/* <View>
         {store.state.movies.map((movie, id) => {
           return (
             <View key={id}>
-              {/* HOW TO AVOID PRETTIER? */}
               <Text style={styles.characterDrugo}>{movie}</Text>
             </View>
           );
         })}
-      </View>
-      <View style={{ flexDirection: "row" }}>
+      </View> */}
+      {/* <View style={{ flexDirection: "row" }}>
         <TouchableOpacity
           activeOpacity={0.5}
           onPress={() => {
@@ -99,7 +176,7 @@ export const CharacterDetailScreen = observer(({ navigation }) => {
             ADD TO FAVORITES
           </Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </ScrollView>
   );
 });
