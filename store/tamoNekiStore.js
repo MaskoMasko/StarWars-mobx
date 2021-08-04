@@ -8,6 +8,7 @@ import {
   applySnapshot,
 } from "mobx-state-tree";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Alert } from "react-native";
 
 const FilmiciModel = types.model("Movie", {
   title: types.string,
@@ -40,7 +41,7 @@ const Store = types
     //safe refrence tornima charmodel koji ima taj identifier
 
     // Lista referenci na charactere koji su oznaceni kao "favorite"
-    favoriteCharacterList: types.array(types.safeReference(CharacterModel)),
+    favoriteCharacterList: types.array(types.string),
 
     filmiciList: types.array(FilmiciModel),
   })
@@ -94,8 +95,11 @@ const Store = types
   })
   .actions((self) => {
     return {
-      addSelectedCharacterToFavorites(characterId) {
-        self.favoriteCharacterList.push(characterId);
+      addSelectedCharacterToFavorites(name) {
+        if (self.favoriteCharacterList.includes(name)) {
+          return;
+        }
+        self.favoriteCharacterList.push(name);
       },
     };
   })
