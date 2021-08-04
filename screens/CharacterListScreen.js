@@ -155,8 +155,8 @@ export const CharacterListScreen = observer(({ navigation }) => {
                 onPress={
                   // store.addChar(name);
                   () => {
+                    characterStore.addSelectedCharacterToFavorites(name);
                     navigation.navigate("FavList");
-                    characterStore.addSelectedCharacterToFavorites(id);
                   }
                 }
                 style={{
