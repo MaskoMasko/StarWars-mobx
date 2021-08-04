@@ -8,6 +8,7 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { characterStore, store } from "../store/tamoNekiStore";
 
@@ -167,7 +168,7 @@ export const CharacterDetailScreen = observer(({ navigation }) => {
           onPress={() => {
             navigation.navigate("FavList");
             characterStore.addSelectedCharacterToFavorites(
-              characterStore.selectedCharacter.id
+              characterStore.selectedCharacter.name
             );
           }}
           style={[
