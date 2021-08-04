@@ -35,12 +35,11 @@ export const FavCharacterListScreen = observer(({ navigation }) => {
                   {
                     flexDirection: "row",
                     justifyContent: "space-between",
-                    width: "78%",
                     alignItems: "center",
                   },
                 ]}
               >
-                <Text style={styles.charListItemText}>{char.name}</Text>
+                <Text style={styles.charListItemText}>{char}</Text>
                 <TouchableOpacity
                   activeOpacity={0.5}
                   onPress={() => {
@@ -172,7 +171,6 @@ const styles = StyleSheet.create({
   },
   charListItem: {
     marginHorizontal: "3%",
-    width: "94%",
     height: 50,
     backgroundColor: "yellow",
     margin: 15,
