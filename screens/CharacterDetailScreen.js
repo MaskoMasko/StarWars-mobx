@@ -115,6 +115,10 @@ export const CharacterDetailScreen = observer(({ navigation }) => {
     skin_color,
     gender,
   } = characterStore.selectedCharacter;
+
+  React.useEffect(() => {
+    characterStore.fetchMovies(id);
+  }, []);
   return (
     <ScrollView
       style={{
@@ -132,6 +136,16 @@ export const CharacterDetailScreen = observer(({ navigation }) => {
       <Text style={styles.characterDrugo}>Eye Color: {eye_color}</Text>
       <Text style={styles.characterDrugo}>Hair Color: {hair_color}</Text>
       <Text style={styles.characterDrugo}>Skin Color: {skin_color}</Text>
+      <Text style={styles.characterPodnaslovi}>Movies</Text>
+      <View>
+        {characterStore.filmiciList.map((filmic, i) => {
+          return (
+            <Text key={i} style={styles.characterDrugo}>
+              {filmic.title}
+            </Text>
+          );
+        })}
+      </View>
       <View style={{ flexDirection: "row" }}>
         <TouchableOpacity
           activeOpacity={0.5}
