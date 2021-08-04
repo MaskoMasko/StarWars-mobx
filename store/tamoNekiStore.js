@@ -8,7 +8,10 @@ import {
   applySnapshot,
 } from "mobx-state-tree";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { func } from "prop-types";
+
+const FilmiciModel = types.model("Movie", {
+  title: types.string,
+});
 
 const CharacterModel = types.model("Character", {
   id: types.identifierNumber,
@@ -16,6 +19,7 @@ const CharacterModel = types.model("Character", {
   name: types.optional(types.string, ""),
   birth_year: types.string,
   eye_color: types.string,
+  movies: types.array(types.string),
   hair_color: types.string,
   skin_color: types.string,
   mass: types.string,
@@ -37,6 +41,8 @@ const Store = types
 
     // Lista referenci na charactere koji su oznaceni kao "favorite"
     favoriteCharacterList: types.array(types.safeReference(CharacterModel)),
+
+    filmiciList: types.array(FilmiciModel),
   })
   .actions((self) => {
     return {
@@ -57,8 +63,19 @@ const Store = types
               hair_color: character.hair_color,
               mass: character.mass,
               height: character.height,
+              movies: character.films,
             });
+            // self.characterList.clear();
           }
+        }
+      }),
+      fetchMovies: flow(function* (id) {
+        for (let i = 0; i < self.characterList[id].movies.length; i++) {
+          const filmici = yield fetch(
+            `${self.characterList[id].movies[i]}?format=json`
+          );
+          const filmiciToJson = yield filmici.json();
+          self.filmiciList.push({ title: filmiciToJson.title });
         }
       }),
     };
@@ -71,6 +88,7 @@ const Store = types
         //char id je link i po njemu dobijes objekt
         //ki ima taj id dobije taj objekt
         self.selectedCharacter = characterId;
+        self.filmiciList.clear();
       },
     };
   })
@@ -89,7 +107,7 @@ const Store = types
     };
   })
   .actions((self) => {
-    const getData = flow(function*() {
+    const getData = flow(function* () {
       try {
         const jsonValue = yield AsyncStorage.getItem("favorite character list");
         return jsonValue != null ? JSON.parse(jsonValue) : null;
@@ -102,7 +120,7 @@ const Store = types
   })
   .actions((self) => {
     return {
-      onAppStart: flow(function*() {
+      onAppStart: flow(function* () {
         // 1. Dohvati iz AsyncStorea podatke, i "applySnaphot" na model
         try {
           const rez = yield self.getData();
