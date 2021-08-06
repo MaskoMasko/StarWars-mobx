@@ -71,10 +71,8 @@ const Store = types
         }
       }),
       fetchMovies: flow(function* (id) {
-        for (let i = 0; i < self.characterList[id].movies.length; i++) {
-          const filmici = yield fetch(
-            `${self.characterList[id].movies[i]}?format=json`
-          );
+        for (const movie of self.characterList[id].movies) {
+          const filmici = yield fetch(`${movie}?format=json`);
           const filmiciToJson = yield filmici.json();
           self.filmiciList.push({ title: filmiciToJson.title });
         }
